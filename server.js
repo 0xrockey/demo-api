@@ -71,7 +71,11 @@ app.post("/register", checkNotAuthenticated, async (req, res) => {
 });
 
 app.delete("/logout", (req, res) => {
-  req.logOut();
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+  });
   res.redirect("/login");
 });
 
@@ -89,8 +93,6 @@ function checkNotAuthenticated(req, res, next) {
   }
   next();
 }
-
-app.listen(3000);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port} ...👾`));
